@@ -1,0 +1,7 @@
+[error] C:\Users\Edvin\git\adventofcode2019\scala\aoc\src\main\scala\Day6.scala:37:10: value unary_! is not a member of scala.collection.mutable.Queue[(String, Int)]
+[error] 		while (!queue.empty && !found) {
+[error] 		       ^
+[error] C:\Users\Edvin\git\adventofcode2019\scala\aoc\src\main\scala\Day6.scala:46:32: too many arguments (2) for method +: (other: String)String
+[error] 					queue = queue + (n, steps + 1)
+[error] 					                          ^
+[error] two errors found
