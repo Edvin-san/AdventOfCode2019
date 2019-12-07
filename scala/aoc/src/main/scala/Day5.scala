@@ -1,20 +1,12 @@
-object Day5 {
-
-	/*
-import Day5._
-val input = ""
-val program = input.split(",").map(_.toInt).toArray
-val computer = new IntCodeComputer(program)
-val diagnostics = computer.runDiagnostics(1)
-	*/
+object IntCodeComputer {
 
 	def run(programString: String, input: Int): String = {
 		val program = programString.split(",").map(_.toInt).toArray
 		val computer = new IntCodeComputer(program)
-		val diagnostics = computer.runDiagnostics(input)
+		val (diagnostics, _) = computer.run(List(input))
 		diagnostics match {
-			case Some(d) => d.last.toString
-			case None => "NO OUTPUT"
+			case Nil => "NO OUTPUT"
+			case d => d.last.toString
 		}
 	}
 
@@ -44,10 +36,11 @@ val diagnostics = computer.runDiagnostics(1)
 	
 	class IntCodeComputer(val program: Array[Int]) {
 
-		def runDiagnostics(input: Int): Option[List[Int]] = {
+		def run(inputs: List[Int]): (List[Int], IntCodeComputer) = {
 			var prog = program
 			def getVal(pa: Param) = pa.getValue(prog)
 			var i = 0
+			var inputIndex = 0
 			var limit = 0
 			var out: List[Int] = Nil
 			while (i < program.size && limit < 600) {
@@ -66,7 +59,11 @@ val diagnostics = computer.runDiagnostics(1)
 						prog(index) = getVal(p1) * getVal(p2)
 					}
 					case (StoreInput, Seq(PositionParam(index))) => {
-						prog(index) = input
+						if (inputIndex >= inputs.size) {
+							throw new IllegalArgumentException("This program excepts at least " + (inputIndex + 1) + " inputs. " + "Only " + inputs.size + " were supplied.");
+						}
+						prog(index) = inputs(inputIndex)
+						inputIndex = inputIndex + 1
 					}
 					case (Output, Seq(p)) => {
 						out = getVal(p) :: out
@@ -97,10 +94,7 @@ val diagnostics = computer.runDiagnostics(1)
 				}
 				limit = limit + 1
 			}
-			out.reverse match {
-				case Nil => None
-				case l => Some(l)
-			}
+			(out.reverse, new IntCodeComputer(prog))
 		}
 
 		def parseParams(code: Int, params: List[Int]): Seq[Param] = {

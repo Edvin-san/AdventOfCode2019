@@ -1,7 +1,9 @@
-[error] C:\Users\Edvin\git\adventofcode2019\scala\aoc\src\main\scala\Day6.scala:37:10: value unary_! is not a member of scala.collection.mutable.Queue[(String, Int)]
-[error] 		while (!queue.empty && !found) {
-[error] 		       ^
-[error] C:\Users\Edvin\git\adventofcode2019\scala\aoc\src\main\scala\Day6.scala:46:32: too many arguments (2) for method +: (other: String)String
-[error] 					queue = queue + (n, steps + 1)
-[error] 					                          ^
+[error] C:\Users\Edvin\git\adventofcode2019\scala\aoc\src\main\scala\Day7.scala:12:17: value permutations is not a member of Set[Int]
+[error] 		phaseSettings.permutations.map(thrusterInput).flatten.max
+[error] 		              ^
+[error] C:\Users\Edvin\git\adventofcode2019\scala\aoc\src\main\scala\Day7.scala:12:34: missing argument list for method thrusterInput
+[error] Unapplied methods are only converted to functions when a function type is expected.
+[error] You can make this conversion explicit by writing `thrusterInput _` or `thrusterInput(_)` instead of `thrusterInput`.
+[error] 		phaseSettings.permutations.map(thrusterInput).flatten.max
+[error] 		                               ^
 [error] two errors found
