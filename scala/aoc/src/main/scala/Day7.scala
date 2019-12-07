@@ -1,6 +1,7 @@
 object Day7 {
 	import IntCodeComputer._
 
+/*
 	def runPart1(programString: String): Int = run((0 to 4).toSet)(programString, false)
 	//def runPart2(programString: String): Int = run((5 to 9).toSet)
 
@@ -13,7 +14,7 @@ object Day7 {
 		phaseSettings.toSeq.permutations.map(thrusterInput).flatten.max
 	}
 
-	def feedbackLoopOutput()
+	//def feedbackLoopOutput()
 
 	def amplifiersOutput(initialInput: List[Int])(amplifiers: Seq[IntCodeComputer])(phaseSettings: Seq[Int]): (List[Int], Seq[IntCodeComputer]) = {
 		val configuredAmplifiers = amplifiers zip phaseSettings
@@ -24,4 +25,5 @@ object Day7 {
 			}
 		}
 	}
+	*/
 }

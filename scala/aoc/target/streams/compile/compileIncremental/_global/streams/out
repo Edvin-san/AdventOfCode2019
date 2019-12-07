@@ -1,43 +1,84 @@
-[debug] 
-[debug] Initial source changes: 
-[debug] 	removed:Set()
-[debug] 	added: Set()
-[debug] 	modified: Set(C:\Users\Edvin\git\adventofcode2019\scala\aoc\src\main\scala\Day7.scala)
-[debug] Invalidated products: Set()
-[debug] External API changes: API Changes: Set()
-[debug] Modified binary dependencies: Set()
-[debug] Initial directly invalidated classes: Set(Day7)
-[debug] 
-[debug] Sources indirectly invalidated by:
-[debug] 	product: Set()
-[debug] 	binary dep: Set()
-[debug] 	external source: Set()
-[debug] All initially invalidated classes: Set(Day7)
-[debug] All initially invalidated sources:Set(C:\Users\Edvin\git\adventofcode2019\scala\aoc\src\main\scala\Day7.scala)
-[debug] Initial set of included nodes: Day7
-[info] Compiling 1 Scala source to C:\Users\Edvin\git\adventofcode2019\scala\aoc\target\scala-2.13\classes ...
-[debug] Getting org.scala-sbt:compiler-bridge_2.13:1.3.0:compile for Scala 2.13.1
-[debug] Getting org.scala-sbt:compiler-bridge_2.13:1.3.0:compile for Scala 2.13.1
-[debug] [zinc] Running cached compiler a0246d4 for Scala compiler version 2.13.1
-[debug] [zinc] The Scala compiler is invoked with:
-[debug] 	-bootclasspath
-[debug] 	C:\Program Files\Java\jre1.8.0_221\lib\resources.jar;C:\Program Files\Java\jre1.8.0_221\lib\rt.jar;C:\Program Files\Java\jre1.8.0_221\lib\sunrsasign.jar;C:\Program Files\Java\jre1.8.0_221\lib\jsse.jar;C:\Program Files\Java\jre1.8.0_221\lib\jce.jar;C:\Program Files\Java\jre1.8.0_221\lib\charsets.jar;C:\Program Files\Java\jre1.8.0_221\lib\jfr.jar;C:\Program Files\Java\jre1.8.0_221\classes;C:\Users\Edvin\AppData\Local\Coursier\cache\v1\https\repo1.maven.org\maven2\org\scala-lang\scala-library\2.13.1\scala-library-2.13.1.jar
-[debug] 	-classpath
-[debug] 	C:\Users\Edvin\git\adventofcode2019\scala\aoc\target\scala-2.13\classes;C:\Users\Edvin\AppData\Local\Coursier\cache\v1\https\repo1.maven.org\maven2\org\typelevel\cats-core_2.13\2.0.0\cats-core_2.13-2.0.0.jar;C:\Users\Edvin\AppData\Local\Coursier\cache\v1\https\repo1.maven.org\maven2\org\typelevel\cats-kernel_2.13\2.0.0\cats-kernel_2.13-2.0.0.jar;C:\Users\Edvin\AppData\Local\Coursier\cache\v1\https\repo1.maven.org\maven2\org\typelevel\cats-macros_2.13\2.0.0\cats-macros_2.13-2.0.0.jar
-[debug] Scala compilation took 0.40227 s
-[info] Done compiling.
-[debug] Invalidating (transitively) by inheritance from Day7...
-[debug] Initial set of included nodes: Day7
-[debug] Invalidated by transitive inheritance dependency: Set(Day7)
-[debug] Change NamesChange(Day7,ModifiedNames(changes = UsedName(runPart1,[Default]), UsedName(run,[Default]))) invalidates 1 classes due to The Day7 has the following regular definitions changed:
-[debug] 	UsedName(runPart1,[Default]), UsedName(run,[Default]).
-[debug] 	> by transitive inheritance: Set(Day7)
-[debug] 	> 
-[debug] 	> 
-[debug]         
-[debug] New invalidations:
-[debug] 	Set()
-[debug] Initial set of included nodes: 
-[debug] Previously invalidated, but (transitively) depend on new invalidations:
-[debug] 	Set()
-[debug] No classes were invalidated.
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mInitial source changes: [0m
+[0m[[0m[0mdebug[0m] [0m[0m	removed:Set()[0m
+[0m[[0m[0mdebug[0m] [0m[0m	added: Set()[0m
+[0m[[0m[0mdebug[0m] [0m[0m	modified: Set(/home/edvin/git/AdventOfCode2019/scala/aoc/src/main/scala/IntCodeComputer.scala, /home/edvin/git/AdventOfCode2019/scala/aoc/src/main/scala/Day5.scala, /home/edvin/git/AdventOfCode2019/scala/aoc/src/main/scala/IntCodeComputerCoordinator.scala)[0m
+[0m[[0m[0mdebug[0m] [0m[0mInvalidated products: Set()[0m
+[0m[[0m[0mdebug[0m] [0m[0mExternal API changes: API Changes: Set()[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified binary dependencies: Set()[0m
+[0m[[0m[0mdebug[0m] [0m[0mInitial directly invalidated classes: Set(IntCodeComputer.JumpIfTrue, IntCodeComputer.JumpIfFalse, IntCodeComputer.Multiply, IntCodeComputer.StoreInput, IntCodeComputer.LessThan, IntCodeComputer.IntCodeComputer, Day5, IntCodeComputerCoordinator, IntCodeComputer.PositionParam, IntCodeComputer.Halt, IntCodeComputer.ImmediateParam, IntCodeComputer, IntCodeComputer.Instruction, IntCodeComputer.Add, IntCodeComputer.Output, IntCodeComputer.IntCodeComputation, IntCodeComputer.Equals, IntCodeComputer.Param)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mSources indirectly invalidated by:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	product: Set()[0m
+[0m[[0m[0mdebug[0m] [0m[0m	binary dep: Set()[0m
+[0m[[0m[0mdebug[0m] [0m[0m	external source: Set()[0m
+[0m[[0m[0mdebug[0m] [0m[0mAll initially invalidated classes: Set(IntCodeComputer.JumpIfTrue, IntCodeComputer.JumpIfFalse, IntCodeComputer.Multiply, IntCodeComputer.StoreInput, IntCodeComputer.LessThan, IntCodeComputer.IntCodeComputer, Day5, IntCodeComputerCoordinator, IntCodeComputer.PositionParam, IntCodeComputer.Halt, IntCodeComputer.ImmediateParam, IntCodeComputer, IntCodeComputer.Instruction, IntCodeComputer.Add, IntCodeComputer.Output, IntCodeComputer.IntCodeComputation, IntCodeComputer.Equals, IntCodeComputer.Param)[0m
+[0m[[0m[0mdebug[0m] [0m[0mAll initially invalidated sources:Set(/home/edvin/git/AdventOfCode2019/scala/aoc/src/main/scala/IntCodeComputer.scala, /home/edvin/git/AdventOfCode2019/scala/aoc/src/main/scala/Day5.scala, /home/edvin/git/AdventOfCode2019/scala/aoc/src/main/scala/IntCodeComputerCoordinator.scala)[0m
+[0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: IntCodeComputer.JumpIfTrue, IntCodeComputer.JumpIfFalse, IntCodeComputer.Multiply, IntCodeComputer.StoreInput, IntCodeComputer.LessThan, IntCodeComputer.IntCodeComputer, Day5, IntCodeComputerCoordinator, IntCodeComputer.PositionParam, IntCodeComputer.Halt, IntCodeComputer.ImmediateParam, IntCodeComputer, IntCodeComputer.Instruction, IntCodeComputer.Add, IntCodeComputer.Output, IntCodeComputer.IntCodeComputation, IntCodeComputer.Equals, IntCodeComputer.Param[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding IntCodeComputer.Add by IntCodeComputer.Instruction[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding IntCodeComputer.Output by IntCodeComputer.Instruction[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding IntCodeComputer.Equals by IntCodeComputer.Instruction[0m
+[0m[[0m[0minfo[0m] [0m[0mCompiling 3 Scala sources to /home/edvin/git/AdventOfCode2019/scala/aoc/target/scala-2.13/classes ...[0m
+[0m[[0m[0mdebug[0m] [0m[0mGetting org.scala-sbt:compiler-bridge_2.13:1.3.0:compile for Scala 2.13.1[0m
+[0m[[0m[0mdebug[0m] [0m[0mGetting org.scala-sbt:compiler-bridge_2.13:1.3.0:compile for Scala 2.13.1[0m
+[0m[[0m[0mdebug[0m] [0m[0m[zinc] Running cached compiler 6298c717 for Scala compiler version 2.13.1[0m
+[0m[[0m[0mdebug[0m] [0m[0m[zinc] The Scala compiler is invoked with:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	-bootclasspath[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/resources.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/rt.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/sunrsasign.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/jsse.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/jce.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/charsets.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/jfr.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/classes:/home/edvin/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.1/scala-library-2.13.1.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0m	-classpath[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/home/edvin/git/AdventOfCode2019/scala/aoc/target/scala-2.13/classes:/home/edvin/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/cats-core_2.13/2.0.0/cats-core_2.13-2.0.0.jar:/home/edvin/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/cats-kernel_2.13/2.0.0/cats-kernel_2.13-2.0.0.jar:/home/edvin/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/cats-macros_2.13/2.0.0/cats-macros_2.13-2.0.0.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mScala compilation took 1.033138819 s[0m
+[0m[[0m[0mdebug[0m] [0m[0mDone compiling.[0m
+[0m[[0m[0mdebug[0m] [0m[0mInvalidating (transitively) by inheritance from IntCodeComputer.BasicIOIntCodeComputation...[0m
+[0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: IntCodeComputer.BasicIOIntCodeComputation[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding IntCodeComputer.IntCodeComputer by IntCodeComputer.BasicIOIntCodeComputation[0m
+[0m[[0m[0mdebug[0m] [0m[0mInvalidated by transitive inheritance dependency: Set(IntCodeComputer.BasicIOIntCodeComputation, IntCodeComputer.IntCodeComputer)[0m
+[0m[[0m[0mdebug[0m] [0m[0mThe following modified names cause invalidation of Day5: Set(UsedName(run,[Default]), UsedName(toString,[Default]), UsedName(addInput,[Default]), UsedName(output,[Default]))[0m
+[0m[[0m[0mdebug[0m] [0m[0mThe following modified names cause invalidation of Day5: Set(UsedName(run,[Default]), UsedName(toString,[Default]), UsedName(addInput,[Default]), UsedName(output,[Default]))[0m
+[0m[[0m[0mdebug[0m] [0m[0mChange NamesChange(IntCodeComputer.BasicIOIntCodeComputation,ModifiedNames(changes = UsedName(equals,[Default]), UsedName(hashCode,[Default]), UsedName(!=,[Default]), UsedName(notify,[Default]), UsedName(run,[Default]), UsedName(finalize,[Default]), UsedName($init$,[Default]), UsedName(##,[Default]), UsedName(wait,[Default]), UsedName(getClass,[Default]), UsedName(inputs,[Default]), UsedName($isInstanceOf,[Default]), UsedName(==,[Default]), UsedName(synchronized,[Default]), UsedName(hasTerminated,[Default]), UsedName(toString,[Default]), UsedName(addInput,[Default]), UsedName(outputs,[Default]), UsedName(notifyAll,[Default]), UsedName($asInstanceOf,[Default]), UsedName(eq,[Default]), UsedName(isInstanceOf,[Default]), UsedName(output,[Default]), UsedName(clone,[Default]), UsedName(asInstanceOf,[Default]), UsedName(ne,[Default]), UsedName(terminated,[Default]), UsedName(BasicIOIntCodeComputation,[Default]))) invalidates 3 classes due to The IntCodeComputer.BasicIOIntCodeComputation has the following regular definitions changed:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	UsedName(equals,[Default]), UsedName(hashCode,[Default]), UsedName(!=,[Default]), UsedName(notify,[Default]), UsedName(run,[Default]), UsedName(finalize,[Default]), UsedName($init$,[Default]), UsedName(##,[Default]), UsedName(wait,[Default]), UsedName(getClass,[Default]), UsedName(inputs,[Default]), UsedName($isInstanceOf,[Default]), UsedName(==,[Default]), UsedName(synchronized,[Default]), UsedName(hasTerminated,[Default]), UsedName(toString,[Default]), UsedName(addInput,[Default]), UsedName(outputs,[Default]), UsedName(notifyAll,[Default]), UsedName($asInstanceOf,[Default]), UsedName(eq,[Default]), UsedName(isInstanceOf,[Default]), UsedName(output,[Default]), UsedName(clone,[Default]), UsedName(asInstanceOf,[Default]), UsedName(ne,[Default]), UsedName(terminated,[Default]), UsedName(BasicIOIntCodeComputation,[Default]).[0m
+[0m[[0m[0mdebug[0m] [0m[0m	> by transitive inheritance: Set(IntCodeComputer.BasicIOIntCodeComputation, IntCodeComputer.IntCodeComputer)[0m
+[0m[[0m[0mdebug[0m] [0m[0m	> [0m
+[0m[[0m[0mdebug[0m] [0m[0m	> by member reference: Set(Day5)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        [0m
+[0m[[0m[0mdebug[0m] [0m[0mInvalidating (transitively) by inheritance from IntCodeComputer.IntCodeComputer...[0m
+[0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: IntCodeComputer.IntCodeComputer[0m
+[0m[[0m[0mdebug[0m] [0m[0mInvalidated by transitive inheritance dependency: Set(IntCodeComputer.IntCodeComputer)[0m
+[0m[[0m[0mdebug[0m] [0m[0mThe following modified names cause invalidation of Day5: Set(UsedName(run,[Default]), UsedName(addInput,[Default]), UsedName(output,[Default]), UsedName(IntCodeComputer,[Default]))[0m
+[0m[[0m[0mdebug[0m] [0m[0mChange NamesChange(IntCodeComputer.IntCodeComputer,ModifiedNames(changes = UsedName(run,[Default]), UsedName($init$,[Default]), UsedName(inputs,[Default]), UsedName(addInput,[Default]), UsedName(outputs,[Default]), UsedName(output,[Default]), UsedName(IntCodeComputer,[Default]))) invalidates 2 classes due to The IntCodeComputer.IntCodeComputer has the following regular definitions changed:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	UsedName(run,[Default]), UsedName($init$,[Default]), UsedName(inputs,[Default]), UsedName(addInput,[Default]), UsedName(outputs,[Default]), UsedName(output,[Default]), UsedName(IntCodeComputer,[Default]).[0m
+[0m[[0m[0mdebug[0m] [0m[0m	> by transitive inheritance: Set(IntCodeComputer.IntCodeComputer)[0m
+[0m[[0m[0mdebug[0m] [0m[0m	> [0m
+[0m[[0m[0mdebug[0m] [0m[0m	> by member reference: Set(Day5)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        [0m
+[0m[[0m[0mdebug[0m] [0m[0mInvalidating (transitively) by inheritance from IntCodeComputer...[0m
+[0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: IntCodeComputer[0m
+[0m[[0m[0mdebug[0m] [0m[0mInvalidated by transitive inheritance dependency: Set(IntCodeComputer)[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone of the modified names appears in source file of Day5. This dependency is not being considered for invalidation.[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone of the modified names appears in source file of IntCodeComputerCoordinator. This dependency is not being considered for invalidation.[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone of the modified names appears in source file of Day7. This dependency is not being considered for invalidation.[0m
+[0m[[0m[0mdebug[0m] [0m[0mChange NamesChange(IntCodeComputer,ModifiedNames(changes = UsedName(BasicIOIntCodeComputation,[Default]))) invalidates 1 classes due to The IntCodeComputer has the following regular definitions changed:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	UsedName(BasicIOIntCodeComputation,[Default]).[0m
+[0m[[0m[0mdebug[0m] [0m[0m	> by transitive inheritance: Set(IntCodeComputer)[0m
+[0m[[0m[0mdebug[0m] [0m[0m	> [0m
+[0m[[0m[0mdebug[0m] [0m[0m	> [0m
+[0m[[0m[0mdebug[0m] [0m[0m        [0m
+[0m[[0m[0mdebug[0m] [0m[0mInvalidating (transitively) by inheritance from IntCodeComputer.IntCodeComputation...[0m
+[0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: IntCodeComputer.IntCodeComputation[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding IntCodeComputer.BasicIOIntCodeComputation by IntCodeComputer.IntCodeComputation[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding IntCodeComputer.IntCodeComputer by IntCodeComputer.BasicIOIntCodeComputation[0m
+[0m[[0m[0mdebug[0m] [0m[0mInvalidated by transitive inheritance dependency: Set(IntCodeComputer.IntCodeComputation, IntCodeComputer.BasicIOIntCodeComputation, IntCodeComputer.IntCodeComputer)[0m
+[0m[[0m[0mdebug[0m] [0m[0mThe following modified names cause invalidation of Day5: Set(UsedName(run,[Default]), UsedName(addInput,[Default]), UsedName(output,[Default]))[0m
+[0m[[0m[0mdebug[0m] [0m[0mThe following modified names cause invalidation of Day5: Set(UsedName(run,[Default]), UsedName(addInput,[Default]), UsedName(output,[Default]))[0m
+[0m[[0m[0mdebug[0m] [0m[0mChange NamesChange(IntCodeComputer.IntCodeComputation,ModifiedNames(changes = UsedName(addInput,[Default]), UsedName(run,[Default]), UsedName(output,[Default]))) invalidates 4 classes due to The IntCodeComputer.IntCodeComputation has the following regular definitions changed:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	UsedName(addInput,[Default]), UsedName(run,[Default]), UsedName(output,[Default]).[0m
+[0m[[0m[0mdebug[0m] [0m[0m	> by transitive inheritance: Set(IntCodeComputer.IntCodeComputation, IntCodeComputer.BasicIOIntCodeComputation, IntCodeComputer.IntCodeComputer)[0m
+[0m[[0m[0mdebug[0m] [0m[0m	> [0m
+[0m[[0m[0mdebug[0m] [0m[0m	> by member reference: Set(Day5)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        [0m
+[0m[[0m[0mdebug[0m] [0m[0mNew invalidations:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Set(Day5)[0m
+[0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: Day5[0m
+[0m[[0m[0mdebug[0m] [0m[0mPreviously invalidated, but (transitively) depend on new invalidations:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Set()[0m
+[0m[[0m[0mdebug[0m] [0m[0mNo classes were invalidated.[0m

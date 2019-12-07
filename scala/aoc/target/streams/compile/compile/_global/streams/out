@@ -1,9 +1,2 @@
-[error] C:\Users\Edvin\git\adventofcode2019\scala\aoc\src\main\scala\Day7.scala:12:17: value permutations is not a member of Set[Int]
-[error] 		phaseSettings.permutations.map(thrusterInput).flatten.max
-[error] 		              ^
-[error] C:\Users\Edvin\git\adventofcode2019\scala\aoc\src\main\scala\Day7.scala:12:34: missing argument list for method thrusterInput
-[error] Unapplied methods are only converted to functions when a function type is expected.
-[error] You can make this conversion explicit by writing `thrusterInput _` or `thrusterInput(_)` instead of `thrusterInput`.
-[error] 		phaseSettings.permutations.map(thrusterInput).flatten.max
-[error] 		                               ^
-[error] two errors found
+[0m[[0m[33mwarn[0m] [0m[0mthere was one deprecation warning (since 2.13.0); re-run with -deprecation for details[0m
+[0m[[0m[33mwarn[0m] [0m[0mone warning found[0m

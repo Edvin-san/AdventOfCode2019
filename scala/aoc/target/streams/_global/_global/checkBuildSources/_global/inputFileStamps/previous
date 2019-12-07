@@ -1,1 +1,1 @@
-["sbt.Task[scala.collection.Seq[scala.Tuple2[java.nio.file.Path, sbt.nio.FileStamp]]]",{"hashes":[["C:\\Users\\Edvin\\git\\adventofcode2019\\scala\\aoc\\build.sbt","d9433e22c45e5c031ba7f026d337c1846ec015e5"]],"lastModifiedTimes":[]}]
+["sbt.Task[scala.collection.Seq[scala.Tuple2[java.nio.file.Path, sbt.nio.FileStamp]]]",{"hashes":[["/home/edvin/git/AdventOfCode2019/scala/aoc/build.sbt","d637de5052e1f351d4069cde081c827d42a53a0f"]],"lastModifiedTimes":[]}]

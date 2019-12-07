@@ -62,3 +62,12 @@ console
 exit
 console
 exit
+import Day3._
+compile
+console
+compile
+compile -deprecation
+compile -deprecation;
+compile -deprecation
+compile
+exit
