@@ -25,10 +25,12 @@ object IntCodeComputer {
 	case object Halt extends Instruction
 	
 	trait IntCodeComputation {
+		def identifier: String
 		def run(): Unit
 		def hasTerminated: Boolean
-		def addInput(input: Int): Unit
+		def addInputs(in: List[Int]): Unit
 		def output: List[Int]
+		def reset()
 	}
 
 	trait BasicIOIntCodeComputation extends IntCodeComputation {
@@ -36,24 +38,48 @@ object IntCodeComputer {
 		var terminated = false
 		var inputs: Queue[Int] = Queue.empty
 		var outputs: List[Int] = Nil
-		override def addInput(input: Int) = {
-			inputs += input
+		override def addInputs(in: List[Int]) = {
+			for (input <- in) {
+				inputs += input
+			}
 		}
 		override def output = outputs
 		override def hasTerminated = terminated
+		override def reset(): Unit = {
+			inputs = Queue.empty
+			outputs = Nil
+			terminated = false
+		}
 	}
 
-	class IntCodeComputer(val program: Array[Int]) extends IntCodeComputation with BasicIOIntCodeComputation {
+	class IntCodeComputer(val id: String, val program: Array[Int]) extends IntCodeComputation with BasicIOIntCodeComputation {
 		var i = 0
-		var prog = program
+		var prog = program.clone()
+
+		/*
+		override def addInputs(in: List[Int]) = {
+			super.addInputs(in)
+			println("computer " + id + " now has input " + inputs)
+		}
+		*/
+
+		override def identifier = id
 
 		def getVal(pa: Param) = pa.getValue(prog)
 
+		override def reset() = {
+			super.reset()
+			i = 0
+			prog = program.clone()
+		}
+
+		// Will run until reaching halt instruction (and terminating) or waiting for input.
 		override def run() = {
 			var limit = 0
 			var needToWaitForInput = false
 			var out: List[Int] = Nil
 			while (i < program.size && !needToWaitForInput && !hasTerminated && limit < 600) {
+				//printProg(prog, i)
 				val code = prog(i)
 				val op = parseInstruction(code)
 				val np = numParams(op)

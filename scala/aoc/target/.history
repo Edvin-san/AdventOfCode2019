@@ -71,3 +71,18 @@ compile -deprecation;
 compile -deprecation
 compile
 exit
+compile
+exit
+compile
+console
+compile
+console
+compile
+console
+compile
+console
+:quit
+console
+exit
+console
+exit
