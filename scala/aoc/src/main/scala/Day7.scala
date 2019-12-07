@@ -11,7 +11,9 @@ object Day7 {
 		def thrusterInput(phaseSettings: Seq[Int]): Option[Int] = amplifiersOutput(List(0))(amplifiers)(phaseSettings).headOption
 
 		phaseSettings.toSeq.permutations.map(thrusterInput).flatten.max
-	} 
+	}
+
+	def feedbackLoopOutput()
 
 	def amplifiersOutput(initialInput: List[Int])(amplifiers: Seq[IntCodeComputer])(phaseSettings: Seq[Int]): (List[Int], Seq[IntCodeComputer]) = {
 		val configuredAmplifiers = amplifiers zip phaseSettings
