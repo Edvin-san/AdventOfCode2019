@@ -2,7 +2,6 @@
 *.log
 
 # sbt
-bin/
-project/
-target/
-build/
+scala/target
+scala/aoc/project/
+scala/aoc/target/
