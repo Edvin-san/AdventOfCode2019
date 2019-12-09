@@ -1,49 +1,43 @@
-[0m[[0m[0mdebug[0m] [0m[0m[0m
-[0m[[0m[0mdebug[0m] [0m[0mInitial source changes: [0m
-[0m[[0m[0mdebug[0m] [0m[0m	removed:Set()[0m
-[0m[[0m[0mdebug[0m] [0m[0m	added: Set()[0m
-[0m[[0m[0mdebug[0m] [0m[0m	modified: Set(/home/edvin/git/AdventOfCode2019/scala/aoc/src/main/scala/Day7.scala, /home/edvin/git/AdventOfCode2019/scala/aoc/src/main/scala/IntCodeComputationCoordinator.scala, /home/edvin/git/AdventOfCode2019/scala/aoc/src/main/scala/IntCodeComputer.scala)[0m
-[0m[[0m[0mdebug[0m] [0m[0mInvalidated products: Set()[0m
-[0m[[0m[0mdebug[0m] [0m[0mExternal API changes: API Changes: Set()[0m
-[0m[[0m[0mdebug[0m] [0m[0mModified binary dependencies: Set()[0m
-[0m[[0m[0mdebug[0m] [0m[0mInitial directly invalidated classes: Set(IntCodeComputer.JumpIfTrue, IntCodeComputer.JumpIfFalse, IntCodeComputer.Multiply, IntCodeComputer.StoreInput, Day7, IntCodeComputationCoordinator, IntCodeComputer.LessThan, IntCodeComputer.IntCodeComputer, IntCodeComputer.PositionParam, IntCodeComputer.BasicIOIntCodeComputation, IntCodeComputer.Halt, IntCodeComputer.ImmediateParam, IntCodeComputer, IntCodeComputer.Instruction, IntCodeComputer.Add, IntCodeComputationCoordinator.IntCodeCombinedComputation, IntCodeComputer.Output, IntCodeComputer.IntCodeComputation, IntCodeComputer.Equals, IntCodeComputer.Param)[0m
-[0m[[0m[0mdebug[0m] [0m[0m[0m
-[0m[[0m[0mdebug[0m] [0m[0mSources indirectly invalidated by:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	product: Set()[0m
-[0m[[0m[0mdebug[0m] [0m[0m	binary dep: Set()[0m
-[0m[[0m[0mdebug[0m] [0m[0m	external source: Set()[0m
-[0m[[0m[0mdebug[0m] [0m[0mAll initially invalidated classes: Set(IntCodeComputer.JumpIfTrue, IntCodeComputer.JumpIfFalse, IntCodeComputer.Multiply, IntCodeComputer.StoreInput, Day7, IntCodeComputationCoordinator, IntCodeComputer.LessThan, IntCodeComputer.IntCodeComputer, IntCodeComputer.PositionParam, IntCodeComputer.BasicIOIntCodeComputation, IntCodeComputer.Halt, IntCodeComputer.ImmediateParam, IntCodeComputer, IntCodeComputer.Instruction, IntCodeComputer.Add, IntCodeComputationCoordinator.IntCodeCombinedComputation, IntCodeComputer.Output, IntCodeComputer.IntCodeComputation, IntCodeComputer.Equals, IntCodeComputer.Param)[0m
-[0m[[0m[0mdebug[0m] [0m[0mAll initially invalidated sources:Set(/home/edvin/git/AdventOfCode2019/scala/aoc/src/main/scala/Day7.scala, /home/edvin/git/AdventOfCode2019/scala/aoc/src/main/scala/IntCodeComputationCoordinator.scala, /home/edvin/git/AdventOfCode2019/scala/aoc/src/main/scala/IntCodeComputer.scala)[0m
-[0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: IntCodeComputer.JumpIfTrue, IntCodeComputer.JumpIfFalse, IntCodeComputer.Multiply, IntCodeComputer.StoreInput, Day7, IntCodeComputationCoordinator, IntCodeComputer.LessThan, IntCodeComputer.IntCodeComputer, IntCodeComputer.PositionParam, IntCodeComputer.BasicIOIntCodeComputation, IntCodeComputer.Halt, IntCodeComputer.ImmediateParam, IntCodeComputer, IntCodeComputer.Instruction, IntCodeComputer.Add, IntCodeComputationCoordinator.IntCodeCombinedComputation, IntCodeComputer.Output, IntCodeComputer.IntCodeComputation, IntCodeComputer.Equals, IntCodeComputer.Param[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding IntCodeComputationCoordinator.IntCodeCombinedComputation by IntCodeComputer.BasicIOIntCodeComputation[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding IntCodeComputer.Add by IntCodeComputer.Instruction[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding IntCodeComputer.Output by IntCodeComputer.Instruction[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding IntCodeComputer.Equals by IntCodeComputer.Instruction[0m
-[0m[[0m[0minfo[0m] [0m[0mCompiling 3 Scala sources to /home/edvin/git/AdventOfCode2019/scala/aoc/target/scala-2.13/classes ...[0m
-[0m[[0m[0mdebug[0m] [0m[0mGetting org.scala-sbt:compiler-bridge_2.13:1.3.0:compile for Scala 2.13.1[0m
-[0m[[0m[0mdebug[0m] [0m[0mGetting org.scala-sbt:compiler-bridge_2.13:1.3.0:compile for Scala 2.13.1[0m
-[0m[[0m[0mdebug[0m] [0m[0m[zinc] Running cached compiler 5525b087 for Scala compiler version 2.13.1[0m
-[0m[[0m[0mdebug[0m] [0m[0m[zinc] The Scala compiler is invoked with:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	-bootclasspath[0m
-[0m[[0m[0mdebug[0m] [0m[0m	/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/resources.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/rt.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/sunrsasign.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/jsse.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/jce.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/charsets.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/jfr.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/classes:/home/edvin/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.1/scala-library-2.13.1.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0m	-classpath[0m
-[0m[[0m[0mdebug[0m] [0m[0m	/home/edvin/git/AdventOfCode2019/scala/aoc/target/scala-2.13/classes:/home/edvin/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/cats-core_2.13/2.0.0/cats-core_2.13-2.0.0.jar:/home/edvin/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/cats-kernel_2.13/2.0.0/cats-kernel_2.13-2.0.0.jar:/home/edvin/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/cats-macros_2.13/2.0.0/cats-macros_2.13-2.0.0.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mScala compilation took 12.208405884 s[0m
-[0m[[0m[0mdebug[0m] [0m[0mDone compiling.[0m
-[0m[[0m[0mdebug[0m] [0m[0mInvalidating (transitively) by inheritance from IntCodeComputer.IntCodeComputer...[0m
-[0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: IntCodeComputer.IntCodeComputer[0m
-[0m[[0m[0mdebug[0m] [0m[0mInvalidated by transitive inheritance dependency: Set(IntCodeComputer.IntCodeComputer)[0m
-[0m[[0m[0mdebug[0m] [0m[0mNone of the modified names appears in source file of Day7. This dependency is not being considered for invalidation.[0m
-[0m[[0m[0mdebug[0m] [0m[0mNone of the modified names appears in source file of Day5. This dependency is not being considered for invalidation.[0m
-[0m[[0m[0mdebug[0m] [0m[0mChange NamesChange(IntCodeComputer.IntCodeComputer,ModifiedNames(changes = )) invalidates 1 classes due to The IntCodeComputer.IntCodeComputer has the following regular definitions changed:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	.[0m
-[0m[[0m[0mdebug[0m] [0m[0m	> by transitive inheritance: Set(IntCodeComputer.IntCodeComputer)[0m
-[0m[[0m[0mdebug[0m] [0m[0m	> [0m
-[0m[[0m[0mdebug[0m] [0m[0m	> [0m
-[0m[[0m[0mdebug[0m] [0m[0m        [0m
-[0m[[0m[0mdebug[0m] [0m[0mNew invalidations:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	Set()[0m
-[0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: [0m
-[0m[[0m[0mdebug[0m] [0m[0mPreviously invalidated, but (transitively) depend on new invalidations:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	Set()[0m
-[0m[[0m[0mdebug[0m] [0m[0mNo classes were invalidated.[0m
+[debug] 
+[debug] Initial source changes: 
+[debug] 	removed:Set()
+[debug] 	added: Set()
+[debug] 	modified: Set(C:\Users\Edvin\git\adventofcode2019\scala\aoc\src\main\scala\Day9.scala)
+[debug] Invalidated products: Set()
+[debug] External API changes: API Changes: Set()
+[debug] Modified binary dependencies: Set()
+[debug] Initial directly invalidated classes: Set(Day9)
+[debug] 
+[debug] Sources indirectly invalidated by:
+[debug] 	product: Set()
+[debug] 	binary dep: Set()
+[debug] 	external source: Set()
+[debug] All initially invalidated classes: Set(Day9)
+[debug] All initially invalidated sources:Set(C:\Users\Edvin\git\adventofcode2019\scala\aoc\src\main\scala\Day9.scala)
+[debug] Initial set of included nodes: Day9
+[info] Compiling 1 Scala source to C:\Users\Edvin\git\adventofcode2019\scala\aoc\target\scala-2.13\classes ...
+[debug] Getting org.scala-sbt:compiler-bridge_2.13:1.3.0:compile for Scala 2.13.1
+[debug] Getting org.scala-sbt:compiler-bridge_2.13:1.3.0:compile for Scala 2.13.1
+[debug] [zinc] Running cached compiler 7f3da9a0 for Scala compiler version 2.13.1
+[debug] [zinc] The Scala compiler is invoked with:
+[debug] 	-bootclasspath
+[debug] 	C:\Program Files\Java\jre1.8.0_221\lib\resources.jar;C:\Program Files\Java\jre1.8.0_221\lib\rt.jar;C:\Program Files\Java\jre1.8.0_221\lib\sunrsasign.jar;C:\Program Files\Java\jre1.8.0_221\lib\jsse.jar;C:\Program Files\Java\jre1.8.0_221\lib\jce.jar;C:\Program Files\Java\jre1.8.0_221\lib\charsets.jar;C:\Program Files\Java\jre1.8.0_221\lib\jfr.jar;C:\Program Files\Java\jre1.8.0_221\classes;C:\Users\Edvin\AppData\Local\Coursier\cache\v1\https\repo1.maven.org\maven2\org\scala-lang\scala-library\2.13.1\scala-library-2.13.1.jar
+[debug] 	-classpath
+[debug] 	C:\Users\Edvin\git\adventofcode2019\scala\aoc\target\scala-2.13\classes;C:\Users\Edvin\AppData\Local\Coursier\cache\v1\https\repo1.maven.org\maven2\org\typelevel\cats-core_2.13\2.0.0\cats-core_2.13-2.0.0.jar;C:\Users\Edvin\AppData\Local\Coursier\cache\v1\https\repo1.maven.org\maven2\org\typelevel\cats-kernel_2.13\2.0.0\cats-kernel_2.13-2.0.0.jar;C:\Users\Edvin\AppData\Local\Coursier\cache\v1\https\repo1.maven.org\maven2\org\typelevel\cats-macros_2.13\2.0.0\cats-macros_2.13-2.0.0.jar
+[debug] Scala compilation took 0.2617272 s
+[info] Done compiling.
+[debug] Invalidating (transitively) by inheritance from Day9...
+[debug] Initial set of included nodes: Day9
+[debug] Invalidated by transitive inheritance dependency: Set(Day9)
+[debug] Change NamesChange(Day9,ModifiedNames(changes = UsedName(part2,[Default]), UsedName(part1,[Default]), UsedName(inputString,[Default]))) invalidates 1 classes due to The Day9 has the following regular definitions changed:
+[debug] 	UsedName(part2,[Default]), UsedName(part1,[Default]), UsedName(inputString,[Default]).
+[debug] 	> by transitive inheritance: Set(Day9)
+[debug] 	> 
+[debug] 	> 
+[debug]         
+[debug] New invalidations:
+[debug] 	Set()
+[debug] Initial set of included nodes: 
+[debug] Previously invalidated, but (transitively) depend on new invalidations:
+[debug] 	Set()
+[debug] No classes were invalidated.

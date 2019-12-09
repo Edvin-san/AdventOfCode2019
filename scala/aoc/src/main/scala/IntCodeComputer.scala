@@ -1,19 +1,26 @@
 object IntCodeComputer {
+	import IntCodeProgram._
 
 	sealed trait Param {
-		def getValue(program: Array[Int]): Int
-		def getImmediate: Int
+		def getValue(program: MutableProgram): BigInt
 	}
-	case class ImmediateParam(value: Int) extends Param {
-		override def getValue(program: Array[Int]) = value
-		override def getImmediate = value
+	sealed trait PositionBasedParam extends Param {
+		def index(program: MutableProgram): BigInt
 	}
-	case class PositionParam(index: Int) extends Param {
-		override def getValue(program: Array[Int]) = program(index)
-		override def getImmediate = index
+	case class ImmediateParam(value: BigInt) extends Param {
+		override def getValue(program: MutableProgram) = value
+	}
+	case class PositionParam(i: BigInt) extends PositionBasedParam{
+		override def getValue(program: MutableProgram) = program(i)
+		override def index(program: MutableProgram) = i
+	}
+	case class RelativeParam(i: BigInt) extends PositionBasedParam {
+		override def getValue(program: MutableProgram) = program(index(program))
+		override def index(program: MutableProgram) = i + program.relativeBase
 	}
 
 	sealed trait Instruction
+	case object RelativeBaseOffset extends Instruction
 	case object Add extends Instruction
 	case object Multiply extends Instruction
 	case object StoreInput extends Instruction
@@ -28,17 +35,17 @@ object IntCodeComputer {
 		def identifier: String
 		def run(): Unit
 		def hasTerminated: Boolean
-		def addInputs(in: List[Int]): Unit
-		def output: List[Int]
+		def addInputs(in: List[BigInt]): Unit
+		def output: List[BigInt]
 		def reset()
 	}
 
 	trait BasicIOIntCodeComputation extends IntCodeComputation {
 		import scala.collection.mutable.Queue
 		var terminated = false
-		var inputs: Queue[Int] = Queue.empty
-		var outputs: List[Int] = Nil
-		override def addInputs(in: List[Int]) = {
+		var inputs: Queue[BigInt] = Queue.empty
+		var outputs: List[BigInt] = Nil
+		override def addInputs(in: List[BigInt]) = {
 			for (input <- in) {
 				inputs += input
 			}
@@ -52,9 +59,8 @@ object IntCodeComputer {
 		}
 	}
 
-	class IntCodeComputer(val id: String, val program: Array[Int]) extends IntCodeComputation with BasicIOIntCodeComputation {
-		var i = 0
-		var prog = program.clone()
+	class IntCodeComputer(val id: String, val prog: MutableProgram) extends IntCodeComputation with BasicIOIntCodeComputation {
+		var i = BigInt(0)
 
 		/*
 		override def addInputs(in: List[Int]) = {
@@ -65,21 +71,21 @@ object IntCodeComputer {
 
 		override def identifier = id
 
-		def getVal(pa: Param) = pa.getValue(prog)
+		private def getVal(pa: Param) = pa.getValue(prog)
 
 		override def reset() = {
 			super.reset()
 			i = 0
-			prog = program.clone()
+			prog.reset()
 		}
 
 		// Will run until reaching halt instruction (and terminating) or waiting for input.
 		override def run() = {
-			var limit = 0
+			var limit = 10000000
 			var needToWaitForInput = false
-			var out: List[Int] = Nil
-			while (i < program.size && !needToWaitForInput && !hasTerminated && limit < 600) {
-				//printProg(prog, i)
+			var out: List[BigInt] = Nil
+			while (!hasTerminated && !needToWaitForInput) {
+				//prog.print(i)
 				val code = prog(i)
 				val op = parseInstruction(code)
 				val np = numParams(op)
@@ -87,18 +93,21 @@ object IntCodeComputer {
 				val params = parseParams(code, intparams.toList)
 				var doModifyInstrPointer = true
 				(op, params) match {
-					case (Add, Seq(p1, p2, PositionParam(index))) => {
-						prog(index) = getVal(p1) + getVal(p2)
+					case (RelativeBaseOffset, Seq(p)) => {
+						prog.updateRelativeBase(prog.relativeBase + getVal(p))
 					}
-					case (Multiply, Seq(p1, p2, PositionParam(index))) => {
-						prog(index) = getVal(p1) * getVal(p2)
+					case (Add, Seq(p1, p2, p: PositionBasedParam)) => {
+						prog(p.index(prog)) = getVal(p1) + getVal(p2)
 					}
-					case (StoreInput, Seq(PositionParam(index))) => {
+					case (Multiply, Seq(p1, p2, p: PositionBasedParam)) => {
+						prog(p.index(prog)) = getVal(p1) * getVal(p2)
+					}
+					case (StoreInput, Seq(p: PositionBasedParam)) => {
 						if (inputs.isEmpty) {
 							needToWaitForInput = true
 							doModifyInstrPointer = false
 						} else {
-							prog(index) = inputs.dequeue
+							prog(p.index(prog)) = inputs.dequeue
 						}
 					}
 					case (Output, Seq(p)) => {
@@ -116,35 +125,45 @@ object IntCodeComputer {
 							doModifyInstrPointer = false
 						}
 					}
-					case (LessThan, Seq(p1, p2, PositionParam(index))) => {
-						prog(index) = if (getVal(p1) < getVal(p2)) 1 else 0
+					case (LessThan, Seq(p1, p2, p: PositionBasedParam)) => {
+						prog(p.index(prog)) = if (getVal(p1) < getVal(p2)) 1 else 0
 					}
-					case (Equals, Seq(p1, p2, PositionParam(index))) => {
-						prog(index) = if (getVal(p1) == getVal(p2)) 1 else 0
+					case (Equals, Seq(p1, p2, p: PositionBasedParam)) => {
+						prog(p.index(prog)) = if (getVal(p1) == getVal(p2)) 1 else 0
 					}
 					case (Halt, _) => {
 						terminated = true
 					}
-					case _ => ???
+					case unrecognized => {
+						print("i: " + i)
+						println(unrecognized)
+						prog.print(i)
+						???
+					}
 				}
 				if (doModifyInstrPointer) {
 					i = i + np + 1	
 				}
-				limit = limit + 1
+				limit = limit - 1
+				if (limit == 0) {
+					throw new IllegalArgumentException("Too many iterations, infinite loop?")
+				}
 			}
 			outputs = out
 		}
 
-		def parseParams(code: Int, params: List[Int]): Seq[Param] = {
+		def parseParams(code: BigInt, params: List[BigInt]): Seq[Param] = {
 			val pairs = "%03d".format(("0"+code.toString.dropRight(2)).toInt).reverse zip params 
 			for (p <- pairs) yield p match {
 				case ('0', i) => PositionParam(i)
 				case ('1', i) => ImmediateParam(i)
+				case ('2', i) => RelativeParam(i)
 				case _ => ???
 			}
 		}
 
 		def numParams(op: Instruction) = op match {
+			case RelativeBaseOffset => 1
 			case Add => 3
 			case Multiply => 3
 			case StoreInput => 1
@@ -156,7 +175,7 @@ object IntCodeComputer {
 			case Halt => 0
 		}
 
-		def parseInstruction(code: Int): Instruction = code.toString.takeRight(2).toInt match {
+		def parseInstruction(code: BigInt): Instruction = code.toString.takeRight(2).toInt match {
 			case 1 => Add
 			case 2 => Multiply
 			case 3 => StoreInput
@@ -165,14 +184,9 @@ object IntCodeComputer {
 			case 6 => JumpIfFalse
 			case 7 => LessThan
 			case 8 => Equals
+			case 9 => RelativeBaseOffset
 			case 99 => Halt
 			case _ => ???
-		}
-
-		def printProg(prog: Array[Int], index: Int): Unit = {
-			var copy = prog.map(_.toString)
-			copy(index) = "(" + copy(index) + ")"
-			println(index + ": " + copy.mkString(", "))
 		}
 
 	}

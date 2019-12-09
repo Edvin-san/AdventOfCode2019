@@ -2,20 +2,20 @@ object Day7 {
 	import IntCodeComputer._
 	import IntCodeComputationCoordinator._
 
-	def runPart1(programString: String): Int = run((0 to 4).toSet)(programString, false)
-	def runPart2(programString: String): Int = run((5 to 9).toSet)(programString, true)
+	def runPart1(programString: String): BigInt = run((0 to 4).toSet)(programString, false)
+	def runPart2(programString: String): BigInt = run((5 to 9).toSet)(programString, true)
 
-	def run(phaseSettings: Set[Int])(programString: String, feedbackLoop: Boolean): Int = {
+	def run(phaseSettings: Set[Int])(programString: String, feedbackLoop: Boolean): BigInt = {
 		val numAmplifiers = phaseSettings.size
 		val program = programString.split(",").map(_.toInt).toArray
 		val amplifiers = phaseSettings.toSeq.zip(1 to 5).map(t => new IntCodeComputer(t._2.toString, program))
 		val combinedComputation = setupAmplifierComputation(amplifiers, feedbackLoop)
-		def thrusterInput(phaseSettings: Seq[Int]): Option[Int] = amplifiersOutput(combinedComputation, amplifiers)(0)(phaseSettings).headOption
+		def thrusterInput(phaseSettings: Seq[Int]): Option[BigInt] = amplifiersOutput(combinedComputation, amplifiers)(0)(phaseSettings).headOption
 
 		phaseSettings.toSeq.permutations.map(thrusterInput).flatten.max
 	}
 
-	def runPart2WithPhase(programString: String, phaseSettings: Seq[Int]): List[Int] = {
+	def runPart2WithPhase(programString: String, phaseSettings: Seq[Int]): List[BigInt] = {
 		val program = programString.split(",").map(_.toInt).toArray
 		val amplifiers = phaseSettings.zip(1 to 5).map(t => new IntCodeComputer(t._2.toString, program))
 		val combinedComputation = setupAmplifierComputation(amplifiers, true)
@@ -27,7 +27,7 @@ object Day7 {
 		new IntCodeCombinedComputation("combined", amplifiers.head, pipeConfig)
 	}
 
-	def amplifiersOutput(computation: IntCodeCombinedComputation, amplifiers: Seq[IntCodeComputer])(initialInput: Int)(phaseSettings: Seq[Int]): List[Int] = {
+	def amplifiersOutput(computation: IntCodeCombinedComputation, amplifiers: Seq[IntCodeComputer])(initialInput: Int)(phaseSettings: Seq[Int]): List[BigInt] = {
 		computation.reset()
 		for ((amplifier, phaseSetting) <- amplifiers zip phaseSettings) amplifier.addInputs(List(phaseSetting))
 
