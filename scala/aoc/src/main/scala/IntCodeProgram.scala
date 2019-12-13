@@ -5,6 +5,8 @@ object IntCodeProgram {
 	implicit def bigIntArrayToMutableProgram(arr: Array[BigInt]): MutableProgram =
 		createMutableProgram(arr.toSeq)
 
+	implicit def stringToMutableProgram(s: String): MutableProgram = createMutableProgram(s.split(",").map(BigInt(_)).toSeq)
+
 	implicit def createMutableProgram(instructions: Seq[BigInt]): MutableProgram = {
 		val program = instructions
 			.map(i => i)
