@@ -11,45 +11,32 @@ object Day14 {
 
 		private def dropEmpty(map: Map[String, BigInt]) = map.filter(_._2 != 0)
 
-		def ore(p: Product, availableProduct: Map[String, BigInt], tabs: Int = 0): OreResult = { 
-			def debug(message: String) = {}//println(("  " * tabs) + message)
-			p match {
-			case Product(id, requestedAmount) => {
-				debug(s"REQUEST TO PRODUCE $requestedAmount $id with available $availableProduct")
-				recipes.find(p2 => p2._1.id == id) match {
+		def ore(p: Product, availableProduct: Map[String, BigInt], tabs: Int = 0): OreResult = p match {
+			case Product(id, requestedAmount) => recipes.find(p2 => p2._1.id == id) match {
 					case Some((Product(_, reactionAmount), requirements)) =>
 						val availableAmount: BigInt = availableProduct.get(id).getOrElse(0)
 						val consumed = availableAmount.min(requestedAmount)
 						val consumedProduct = dropEmpty(Map(id -> -consumed))
-						if (consumed > 0) debug(s"Since there was excess of $id, we consumed $consumed")
-						else debug(s"No available $id, will create everything from scratch.")
 						val actualRequestedAmount = requestedAmount - consumed
-						debug(s"The actual requested amount to produce is now $actualRequestedAmount")
+
 						val multiplier = (actualRequestedAmount + reactionAmount - 1) / reactionAmount
 						val order = multiplier*reactionAmount
-						debug(s"We need $multiplier*$reactionAmount = ${order} $id to fulfill the actual order of $actualRequestedAmount $id.")
-						debug(s"consumedProduct: $consumedProduct")
+
 						var excess = union(availableProduct, consumedProduct)
-						debug(s"excess after consume: $excess")
 						var requiredOre: BigInt = 0
 						for (requirement <- requirements) {
 							val result = ore(Product(requirement.id, requirement.amount*multiplier), excess, tabs + 1)
 							requiredOre += result.requiredOre
 							excess = result.excessProduct
 						}
-						debug(s"Excess after all subreactions for $id: $excess")
 						excess = union(excess, Map(id -> (order - actualRequestedAmount)))
-						debug(s"Excess after including this $id: $excess")
-						debug(s":: To produce $actualRequestedAmount of $id we end up with ${OreResult(requiredOre, excess)}")
 						OreResult(requiredOre, excess)
 					case None => 
-						debug("This is just ORE, so just increases ore")
 						// Should never be able to reuse ORE
 						OreResult(requestedAmount, availableProduct)
 				}
 			}
-		}}
-	}	
+	}
 
 	def part1(s: String = puzzleInput) = {
 		val recipes = parseRecipes(s)
