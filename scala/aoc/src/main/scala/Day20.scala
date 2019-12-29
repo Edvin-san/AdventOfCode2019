@@ -1,31 +1,131 @@
 object Day20 {
 
     case class Pos(x: Int, y: Int) {
-		def +(that: Pos) = Pos(x + that.x, y + that.y)
-	}
+  		def +(that: Pos) = Pos(x + that.x, y + that.y)
+  	}
+
+    sealed trait EdgeType
+    case object Recurse extends EdgeType
+    case object Return extends EdgeType
+    case object Walk extends EdgeType
 
     def part1(s: String = puzzleInput) = {
         val (graph, startPos, endPos) = parseGraph(s)
         shortestDistance(graph, startPos, endPos)
     }
 
+    def part2(s: String = puzzleInput) = {
+        val (graph, startPos, endPos) = parseGraph2(s)
+        shortestDistance2(graph, startPos, endPos)
+    }
+
     def shortestDistance(graph: Map[Pos, Seq[Pos]], from: Pos, to: Pos): Int = {
-		import scala.collection.mutable.Queue
+  		import scala.collection.mutable.Queue
 
-		var visited: Set[Pos] = Set(from)
-		val q: Queue[(Pos, Int)] = Queue((from, 0))
-		while (!q.isEmpty) {
-			val (p, dist) = q.dequeue()
-			if (p == to) return dist
+  		var visited: Set[Pos] = Set(from)
+  		val q: Queue[(Pos, Int)] = Queue((from, 0))
+  		while (!q.isEmpty) {
+  			val (p, dist) = q.dequeue()
+  			if (p == to) return dist
 
-			for (neighbor <- graph(p).filter(n => !visited.contains(n))) {
-				q.enqueue((neighbor, dist + 1))
-				visited = visited + neighbor
-			}
-		}
+  			for (neighbor <- graph(p).filter(n => !visited.contains(n))) {
+  				q.enqueue((neighbor, dist + 1))
+  				visited = visited + neighbor
+  			}
+  		}
 
-		-1
-	}
+  		-1
+  	}
+
+    def shortestDistance2(graph: Map[Pos, Seq[(Pos, EdgeType)]], from: Pos, to: Pos): Int = {
+      import scala.collection.mutable.Queue
+
+      var visited: Set[(Int, Pos)] = Set((0, from))
+      val q: Queue[(Int, Pos, Int)] = Queue((0, from, 0))
+      while (!q.isEmpty) {
+        val (depth, p, dist) = q.dequeue()
+        if (p == to && depth == 0) return dist
+
+        for (edge <- graph(p)) {
+          val neighbor = edge match {
+            case (u, Walk) => (depth, u)
+            case (u, Recurse) => (depth + 1, u)
+            case (u, Return) => (depth - 1, u) 
+          }
+          if (neighbor._1 >= 0 && !visited.contains(neighbor)) {
+            q.enqueue((neighbor._1, neighbor._2, dist + 1))
+            visited = visited + neighbor
+          }
+        }
+      }
+
+      -1
+    }
+
+    def parseGraph2(s: String) = {
+        val lines: Array[String] = s.split("\n").drop(1).dropRight(1)
+        var map: Map[Pos, Seq[(Pos, EdgeType)]] = Map()
+        // var startPos = Pos(0, 0)
+        // var exitPos = Pos(0, 0)
+        var portalsByPos: Map[(Pos, EdgeType), String] = Map()
+        
+        def valueAt(pos: Pos): Char = lines(pos.y)(pos.x)
+
+        def isWithinBounds(p: Pos) = p.y >= 0 && p.y < lines.size && p.x >= 0 && p.x < lines(p.y).size
+
+        def setNeighbors(p: Pos) = p match {
+            case Pos(x, y) =>
+                val neighbors = Seq(Pos(x, y + 1), Pos(x, y - 1), Pos(x + 1, y), Pos(x - 1, y))
+                                .filter(isWithinBounds)
+                                .filter(p => valueAt(p) == '.')
+                map = map + (p -> neighbors.map(p => (p, Walk)))
+        }
+
+        def setPortals(p: Pos) = p match {
+            case Pos(x, y) =>
+                val portals = Seq(
+                            Seq(Pos(x, y + 1), Pos(x, y + 2)),
+                            Seq(Pos(x, y - 2), Pos(x, y - 1)),
+                            Seq(Pos(x + 1, y), Pos(x + 2, y)),
+                            Seq(Pos(x - 2, y), Pos(x - 1, y)))
+                            .filter(ps => ps.forall(isWithinBounds _))
+                            .map(ps => ps.map(valueAt))
+                            .filter(cs => cs.forall(c => c.isLetter))
+                            .map(_.mkString)
+
+                if (portals.size > 1) ???
+
+                if (!portals.isEmpty) {
+                    val portalType = if (x <= 2 || x >= lines(0).size - 3 || y <= 2 || y >= lines.size - 3) 
+                                      Return 
+                                      else Recurse
+                    portalsByPos = portalsByPos + ((p, portalType) -> portals.head)
+                }
+        }
+
+        for (y <- 0 until lines.size; x <- 0 until lines(y).size) {
+            val p = Pos(x, y)
+            valueAt(p) match {
+                case '.' =>
+                    setNeighbors(p)
+                    setPortals(p)
+                case _ =>
+            }
+        }
+
+        val groups = portalsByPos.groupBy(_._2).filter(_._2.size > 1).map(_._2.keySet)
+        for (group <- groups; pair <- group.toSeq.combinations(2); directedPair <- pair.permutations) {
+            val (p1, edgeType) = directedPair.head
+            val (p2, _) = directedPair.last
+            val p1Neighbors = map.get(p1).getOrElse(Seq()) :+ (p2, edgeType)
+            map = map + (p1 -> p1Neighbors)
+        }
+
+        val startPos = portalsByPos.find(_._2 == "AA").map(_._1._1).get
+        val endPos = portalsByPos.find(_._2 == "ZZ").map(_._1._1).get
+
+        (map, startPos, endPos)
+    }
 
     def parseGraph(s: String) = {
         val lines: Array[String] = s.split("\n").drop(1).dropRight(1)

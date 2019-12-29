@@ -23,4 +23,27 @@ object Util {
     	println("Elapsed time: " + (t1 - t0) + "ms")
     	result
 	}
+
+	def posMod(a: Int, m: Int): Int = (a%m + m) % m
+
+	def modularInverse(a: Int, m: Int): Int = {
+		val (_, x, _) = gcdExtended(a, m)
+		(x%m + m) % m
+	}
+
+	// Return gcd(a, b), x, y such that a*x + b*y = gcd(a, b)
+	def gcdExtended(a: Int, b: Int): (Int, Int, Int) = {
+		if (a == 0) (b, 0, 1)
+		else {
+			val (gcd, x1, y1) = gcdExtended(b%a, a)
+			val x = y1 - (b/a) * x1
+			val y = x1
+
+			(gcd, x, y)
+		}
+	}
+
+	def gcd(a: Int, b: Int): Int = if (b == 0) a.abs else gcd(b, a % b)
+	def gcd(a: BigInt, b: BigInt): BigInt = if (b == 0) a.abs else gcd(b, a % b)
+	def lcm(list: Seq[BigInt]): BigInt = list.foldLeft(BigInt(1))((a, b) => (a / gcd(a, b)) * b)
 }

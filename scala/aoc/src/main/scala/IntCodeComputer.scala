@@ -30,6 +30,11 @@ object IntCodeComputer {
 	case object LessThan extends Instruction
 	case object Equals extends Instruction
 	case object Halt extends Instruction
+
+	sealed trait IntCodeComputationStatus
+	case object Terminated extends IntCodeComputationStatus
+	case object ReadyToRun extends IntCodeComputationStatus
+	case object WaitingForInput extends IntCodeComputationStatus
 	
 	trait IntCodeComputation {
 		def identifier: String
@@ -59,8 +64,10 @@ object IntCodeComputer {
 		}
 	}
 
-	class IntCodeComputer(val id: String, val prog: MutableProgram) extends IntCodeComputation with BasicIOIntCodeComputation {
+	class IntCodeComputer(val id: String, val prog: MutableProgram) 
+	extends IntCodeComputation with BasicIOIntCodeComputation {
 		var i = BigInt(0)
+		var computationStatus: IntCodeComputationStatus = ReadyToRun
 
 		/*
 		override def addInputs(in: List[Int]) = {
@@ -73,76 +80,89 @@ object IntCodeComputer {
 
 		private def getVal(pa: Param) = pa.getValue(prog)
 
+		def status: IntCodeComputationStatus = computationStatus
+
 		override def reset() = {
 			super.reset()
 			i = 0
 			prog.reset()
 		}
 
+		def runOneInstruction(): Option[BigInt] = {
+			if (status == Terminated || (status == WaitingForInput && inputs.isEmpty)) return None
+
+			computationStatus = ReadyToRun
+			var out: Option[BigInt] = None
+			val code = prog(i)
+			val op = parseInstruction(code)
+			val np = numParams(op)
+			val intparams = for (j <- i + 1 to i + np) yield prog(j)
+			val params = parseParams(code, intparams.toList)
+			var doModifyInstrPointer = true
+			(op, params) match {
+				case (RelativeBaseOffset, Seq(p)) => {
+					prog.updateRelativeBase(prog.relativeBase + getVal(p))
+				}
+				case (Add, Seq(p1, p2, p: PositionBasedParam)) => {
+					prog(p.index(prog)) = getVal(p1) + getVal(p2)
+				}
+				case (Multiply, Seq(p1, p2, p: PositionBasedParam)) => {
+					prog(p.index(prog)) = getVal(p1) * getVal(p2)
+				}
+				case (StoreInput, Seq(p: PositionBasedParam)) => {
+					if (inputs.isEmpty) {
+						doModifyInstrPointer = false
+						computationStatus = WaitingForInput
+					} else {
+						prog(p.index(prog)) = inputs.dequeue
+					}
+				}
+				case (Output, Seq(p)) => {
+					out = Some(getVal(p))
+				}
+				case (JumpIfTrue, Seq(p1, p2)) => {
+					if (getVal(p1) != 0) {
+						i = getVal(p2)
+						doModifyInstrPointer = false
+					}
+				}
+				case (JumpIfFalse, Seq(p1, p2)) => {
+					if (getVal(p1) == 0) {
+						i = getVal(p2)
+						doModifyInstrPointer = false
+					}
+				}
+				case (LessThan, Seq(p1, p2, p: PositionBasedParam)) => {
+					prog(p.index(prog)) = if (getVal(p1) < getVal(p2)) 1 else 0
+				}
+				case (Equals, Seq(p1, p2, p: PositionBasedParam)) => {
+					prog(p.index(prog)) = if (getVal(p1) == getVal(p2)) 1 else 0
+				}
+				case (Halt, _) => {
+					terminated = true
+					computationStatus = Terminated
+				}
+				case unrecognized => {
+					print("i: " + i)
+					println(unrecognized)
+					prog.print(i)
+					???
+				}
+			}
+			if (doModifyInstrPointer) {
+				i = i + np + 1	
+			}
+			out
+		}
+
 		// Will run until reaching halt instruction (and terminating) or waiting for input.
 		override def run() = {
 			var limit = 10000000
-			var needToWaitForInput = false
 			var out: List[BigInt] = Nil
-			while (!hasTerminated && !needToWaitForInput) {
-				//prog.print(i)
-				val code = prog(i)
-				val op = parseInstruction(code)
-				val np = numParams(op)
-				val intparams = for (j <- i + 1 to i + np) yield prog(j)
-				val params = parseParams(code, intparams.toList)
-				var doModifyInstrPointer = true
-				(op, params) match {
-					case (RelativeBaseOffset, Seq(p)) => {
-						prog.updateRelativeBase(prog.relativeBase + getVal(p))
-					}
-					case (Add, Seq(p1, p2, p: PositionBasedParam)) => {
-						prog(p.index(prog)) = getVal(p1) + getVal(p2)
-					}
-					case (Multiply, Seq(p1, p2, p: PositionBasedParam)) => {
-						prog(p.index(prog)) = getVal(p1) * getVal(p2)
-					}
-					case (StoreInput, Seq(p: PositionBasedParam)) => {
-						if (inputs.isEmpty) {
-							needToWaitForInput = true
-							doModifyInstrPointer = false
-						} else {
-							prog(p.index(prog)) = inputs.dequeue
-						}
-					}
-					case (Output, Seq(p)) => {
-						out = out :+ getVal(p)
-					}
-					case (JumpIfTrue, Seq(p1, p2)) => {
-						if (getVal(p1) != 0) {
-							i = getVal(p2)
-							doModifyInstrPointer = false
-						}
-					}
-					case (JumpIfFalse, Seq(p1, p2)) => {
-						if (getVal(p1) == 0) {
-							i = getVal(p2)
-							doModifyInstrPointer = false
-						}
-					}
-					case (LessThan, Seq(p1, p2, p: PositionBasedParam)) => {
-						prog(p.index(prog)) = if (getVal(p1) < getVal(p2)) 1 else 0
-					}
-					case (Equals, Seq(p1, p2, p: PositionBasedParam)) => {
-						prog(p.index(prog)) = if (getVal(p1) == getVal(p2)) 1 else 0
-					}
-					case (Halt, _) => {
-						terminated = true
-					}
-					case unrecognized => {
-						print("i: " + i)
-						println(unrecognized)
-						prog.print(i)
-						???
-					}
-				}
-				if (doModifyInstrPointer) {
-					i = i + np + 1	
+			while (status == ReadyToRun) {
+				runOneInstruction() match {
+					case Some(o) => out = out :+ o
+					case _ => 
 				}
 				limit = limit - 1
 				if (limit == 0) {
