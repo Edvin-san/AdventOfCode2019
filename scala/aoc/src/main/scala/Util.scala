@@ -24,15 +24,15 @@ object Util {
     	result
 	}
 
-	def posMod(a: Int, m: Int): Int = (a%m + m) % m
+	def posMod(a: BigInt, m: BigInt): BigInt = (a%m + m) % m
 
-	def modularInverse(a: Int, m: Int): Int = {
+	def modularInverse(a: BigInt, m: BigInt): BigInt = {
 		val (_, x, _) = gcdExtended(a, m)
 		(x%m + m) % m
 	}
 
 	// Return gcd(a, b), x, y such that a*x + b*y = gcd(a, b)
-	def gcdExtended(a: Int, b: Int): (Int, Int, Int) = {
+	def gcdExtended(a: BigInt, b: BigInt): (BigInt, BigInt, BigInt) = {
 		if (a == 0) (b, 0, 1)
 		else {
 			val (gcd, x1, y1) = gcdExtended(b%a, a)
