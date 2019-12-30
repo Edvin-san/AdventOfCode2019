@@ -70,7 +70,7 @@ object IntCodeComputer {
 		var computationStatus: IntCodeComputationStatus = ReadyToRun
 
 		/*
-		override def addInputs(in: List[Int]) = {
+		override def addInputs(in: List[BigInt]) = {
 			super.addInputs(in)
 			println("computer " + id + " now has input " + inputs)
 		}
@@ -159,7 +159,7 @@ object IntCodeComputer {
 		override def run() = {
 			var limit = 10000000
 			var out: List[BigInt] = Nil
-			while (status == ReadyToRun) {
+			while (status == ReadyToRun || status == WaitingForInput && !inputs.isEmpty) {
 				runOneInstruction() match {
 					case Some(o) => out = out :+ o
 					case _ => 
