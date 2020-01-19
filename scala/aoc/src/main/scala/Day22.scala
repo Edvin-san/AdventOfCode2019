@@ -10,9 +10,9 @@ object Day22 {
 		}
 		def dealNewStack() = deck = deck.reverse
 		def dealWithIncrement(inc: BigInt) = {
-			// deck[j] = deck[i*inc % 1007] := deck[i]
-			// j = i*inc % 1007
-			// i = j*inc^-1 % 1007
+			// deck[j] = deck[i*inc % 10007] := deck[i]
+			// j = i*inc % 10007
+			// i = j*inc^-1 % 10007
 			val inverse = modularInverse(inc, m)
 			deck = (0 until m).map(j => deck((j*inverse % m).toInt)).toList
 		}
@@ -38,19 +38,6 @@ object Day22 {
 				LazyShuffler(m, previousOps).deck(indexBeforeOp)
 		}
 	}
-	/*
-Cut(3)
-Top          Bottom
-0 1 2 3 4 5 6 7 8 9   Your deck
-
-      3 4 5 6 7 8 9   Your deck
-0 1 2                 Cut cards
-
-3 4 5 6 7 8 9         Your deck
-              0 1 2   Cut cards
-
-3 4 5 6 7 8 9 0 1 2   Your deck
-	*/
 
 	sealed trait ShuffleOperation
 	sealed trait IrreducibleShuffleOperation extends ShuffleOperation
@@ -61,6 +48,19 @@ Top          Bottom
 	case class ShuffleReducer(m: BigInt) {
 		/* Reduces to at most two irreducible shuffle operations. */
 		def reduceShuffleOperations(ops: List[IrreducibleShuffleOperation]): List[IrreducibleShuffleOperation] = 
+			/*
+			Cut(n): i => i - n mod m
+			DealWithIncrement(inc): i => inc*i mod m
+			=>
+			1. Reducing the number of operations
+			Cut(x)(Cut(y)): i => i - x - y mod m = i - (x + y) mod m == Cut(x + y)
+			DealWithIncrement(x)(DealWithIncrement(y)): i => x*y*i mod m == DealWithIncrement(x*y)
+
+			2. Changing order of operations.
+			DealWithIncrement(inc)(Cut(n)): i => inc*(i - n) mod m = inc*i - inc*n mod m == Cut(inc*n)(DealWithIncrement(inc))
+
+			This means that we can reduce a big list of operations into at most 2 :)
+			*/
 			ops match {
 				case Nil => Nil
 				case List(op) => List(op)
@@ -98,6 +98,9 @@ Top          Bottom
 				}
 			}
 
+		/*
+		DealNewStack can be translated to a Cut operation combined with a DealWithIncrement operation.
+		*/
 		def reduceOp(op: ShuffleOperation): List[IrreducibleShuffleOperation] = op match {
 			case DealNewStack => List(DealWithIncrement(posMod(-1, m)), Cut(posMod(-1, m)))
 			case o: IrreducibleShuffleOperation => List(o)
@@ -110,14 +113,14 @@ Top          Bottom
 				val reducedHalves = reduceRepeatedOperations(ops, r / 2)
 				reduceShuffleOperations(reducedHalves ++ reducedHalves)
 			} else {
-				val reduced = reduceRepeatedOperations(ops, r / 2)
+				val reduced = reduceRepeatedOperations(ops, r - 1)
 				reduceShuffleOperations(ops ++ reduced)
 			}
 		}
 	}
 
 	def part1(s: String = puzzleInput) = {
-		val shuffleOperations = s.lines.map(parseOperation)
+		val shuffleOperations = s.linesIterator.map(parseOperation)
 		val shuffler = new Shuffler(10007)
 		for (op <- shuffleOperations) op match {
 			case DealNewStack => shuffler.dealNewStack()
@@ -129,7 +132,7 @@ Top          Bottom
 	}
 
 	def part1Lazy(s: String = puzzleInput) = {
-		val shuffleOperations = s.lines.map(parseOperation).toList.reverse
+		val shuffleOperations = s.linesIterator.map(parseOperation).toList.reverse
 		val shuffler = LazyShuffler(10007, shuffleOperations)
 		for (i <- 0 to 10006) yield shuffler.deck(i)
 	}
@@ -137,7 +140,7 @@ Top          Bottom
 	def part1LazyReduce(s: String = puzzleInput) = {
 		val reducer = ShuffleReducer(10007)
 		val shuffleOperations: List[IrreducibleShuffleOperation] = 
-								s.lines.map(parseOperation).toList.reverse
+								s.linesIterator.map(parseOperation).toList.reverse
 								.flatMap(reducer.reduceOp _)
 
 		val reducedOperations = reducer.reduceShuffleOperations(shuffleOperations)
@@ -146,11 +149,13 @@ Top          Bottom
 	}
 
 	/*
-	This does not work.
+	This does not work. The cycle length is too long.
 	*/
 	def part2FindCycleLen(s: String = puzzleInput, maxCycleLen: Int) = {
-		val ops = s.lines.map(parseOperation).toList.reverse
-		val shuffler = LazyShuffler(BigInt("119315717514047"), ops)
+		val ops = s.linesIterator.map(parseOperation).toList.reverse
+		val reducer = ShuffleReducer(BigInt("119315717514047"))
+		val reducedOps = reducer.reduceShuffleOperations(ops.flatMap(reducer.reduceOp _))
+		val shuffler = LazyShuffler(BigInt("119315717514047"), reducedOps)
 		def valueAfterOneWholeShuffle(i: BigInt): BigInt = shuffler.deck(i)
 		def originStream(position: BigInt): Stream[BigInt] = 
 			position #:: originStream(valueAfterOneWholeShuffle(position))
@@ -171,23 +176,23 @@ Top          Bottom
 		(foundCycleLen, last)
 	}
 
+	/*
+	Shuffle operations can be combined. We only need Cut and DealWithIncrement. 
+	Use exponentiation to get (in logarithmic time) the reduced operations after the huge number of repetitions.
+	*/
 	def part2(s: String = puzzleInput) = {
 		val m = BigInt("119315717514047")
 		val repetitions = BigInt("101741582076661")
-		//val repetitions = BigInt(1)
 		val reducer = ShuffleReducer(m)
 		val shuffleOperations: List[IrreducibleShuffleOperation] = 
-								s.lines.map(parseOperation).toList.reverse
+								s.linesIterator.map(parseOperation).toList.reverse
 								.flatMap(reducer.reduceOp _)
 
 		val reducedOperations = reducer.reduceShuffleOperations(shuffleOperations)
-		//val reducedRepeatedOps = reducer.reduceRepeatedOperations(reducedOperations, repetitions)
-		val reducedRepeatedOps = reducer.reduceRepeatedOperations(shuffleOperations, repetitions)
-		println(reducedRepeatedOps)
+		val reducedRepeatedOps = reducer.reduceRepeatedOperations(reducedOperations, repetitions)
 
 		val shuffler = LazyShuffler(m, reducedRepeatedOps)
-		val shuffler2 = LazyShuffler(m, reducedOperations)
-		(shuffler, shuffler2, shuffler.deck(2020))
+		shuffler.deck(2020)
 	}
 
 	def parseOperation(line: String): ShuffleOperation = {
