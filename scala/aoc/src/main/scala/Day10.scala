@@ -1,5 +1,6 @@
 object Day10 {
-	
+	// Use polar coordinates to make your life easier.
+
 	case class Point(value: String, x: Int, y: Int)
 
 	def dist(p1: Point, p2: Point): Double = {
