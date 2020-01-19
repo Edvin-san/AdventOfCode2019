@@ -6,7 +6,7 @@ object Day6 {
 		val graph = parseGraph1(s)
 
 		def orbits(s: String): Int = {
-			if (!graph.contains(s)) 0
+			if (!graph.contains(s)) 0 // Only nodes with outgoing edges
 			else graph(s).map(to => 1 + orbits(to)).sum
 		}
 
