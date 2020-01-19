@@ -1,4 +1,6 @@
 object Day16 {
+    // Part1 Just simulate.
+    // Part2 Notice pattern. Digit on position i only depends on digit positions >= i. Cumulative sum for second half. 
 
     def part1(s: String = puzzleInput, pattern: List[Int] = puzzlePattern): String = {
         val phases = phaseChain(pattern, s)

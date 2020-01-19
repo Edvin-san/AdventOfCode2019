@@ -1,4 +1,5 @@
 object Day20 {
+    // Convert to graph. Breadth-first-search. Parsing is a bit hard.
 
     case class Pos(x: Int, y: Int) {
   		def +(that: Pos) = Pos(x + that.x, y + that.y)

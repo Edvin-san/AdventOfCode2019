@@ -1,5 +1,8 @@
 object Day15 {
 	import IntCodeComputer._
+	// Explore. Build graph. Breadth-first-search to find shortest path.
+	// Part2 BFS can be used to find longest path.
+	// Part2 visualization: https://www.reddit.com/r/adventofcode/comments/eax6t6/2019_day_15_part_2_flooding_the_area_with_oxygen/
 	
 	def part1Experiment(s: String = puzzleInput) = {
 		val computer = new IntCodeComputer("", s)
@@ -11,19 +14,28 @@ object Day15 {
 		var limit = 10000
 		var i = 0
 		var simSteps = 0
+		var simDelay = 0
+		println("\n\n")
+		explorer.printMap(Some(currentDir))
 		while (continue && i < limit) {
 			i += 1
-			println("w: Go 100 steps, anyKey: continue, k: Quit")
+			println("\n\ns: Go 100 steps (slow simulation), f: Go 300 steps (fast simulation), anyKey: continue, k: Quit")
 
 			if (simSteps == 0) {
 				scala.io.StdIn.readLine().trim match {
-					case "w" => 
+					case "s" => 
 						println("Speeding up!")
 						simSteps = 100
+						simDelay = 100
+					case "f" =>
+						println("Superspeed!")
+						simSteps = 300
+						simDelay = 5
 					case "k" => 
 						println("Quiting!")
 						continue = false
 					case _ =>
+						simDelay = 0
 				}
 			} else {
 				simSteps -= 1
@@ -39,7 +51,9 @@ object Day15 {
 				println("It worked! Turning right because I'm curious!")
 				currentDir = right(currentDir)
 			} 
-			explorer.printMap()
+			println("\n\n")
+			explorer.printMap(Some(currentDir))
+			Thread.sleep(simDelay)
 		}
 	}
 
@@ -216,7 +230,7 @@ object Day15 {
 			graph.toMap
 		}
 
-		def printMap(): Unit = {
+		def printMap(droidDirection: Option[Direction] = None): Unit = {
 			val minX = map.keySet.map(_.x).min
 			val maxX = map.keySet.map(_.x).max
 			val minY = map.keySet.map(_.y).min
@@ -224,12 +238,18 @@ object Day15 {
 
 			for (y <- maxY to minY by -1) {
 				val line = for (x <- minX to maxX) yield {
-					if (droidPos == Pos(x, y)) 'D' 
+					if (droidPos == Pos(x, y)) droidDirection match {
+						case None => 'D'
+						case Some(East) => '>'
+						case Some(North) => '^'
+						case Some(West) => '<'
+						case Some(South) => 'v'
+					} 
 					else map.get(Pos(x, y)) match {
 						case Some(Empty) => '.'
 						case Some(Wall) => '#'
 						case Some(OxygenTank) => 'T'
-						case None => '?'
+						case None => ' '
 					}
 				}
 				println(line.mkString)

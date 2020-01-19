@@ -1,5 +1,6 @@
 object Day14 {
 	import Util.lowerBound
+	// You can sometimes throw a binary search on another problem.
 
 	case class Product(id: String, amount: BigInt)
 
@@ -50,6 +51,19 @@ object Day14 {
 		val oreLimit = BigInt("1000000000000")
 		def valueOf(i: BigInt): Int = if (calc.ore(Product("FUEL", i), Map()).requiredOre <= oreLimit) 0 else 1
 		lowerBound(0, oreLimit + 1, 1, valueOf) - 1
+	}
+
+	// Demo binary search.
+	def oreRequiredToProduceXFuel(s: String, fuel: BigInt) = {
+		val oreLimit = BigInt("1000000000000")
+		val recipes = parseRecipes(s)
+		val calc = OreCalculator(recipes)
+		val reqOre = calc.ore(Product("FUEL", fuel), Map()).requiredOre
+		println(s"You require $reqOre ore to produce $fuel fuel.")
+		if (reqOre > oreLimit) println(s"TOO MUCH This is ${reqOre - oreLimit} more than the amount of ore you have available!!")
+		else if (reqOre < oreLimit) println(s"TOO LITTLE You have ${oreLimit - reqOre} more ore available!")
+		else println("You used up all ore!")
+		println
 	}
 
 	def requiredOre(s: String = puzzleInput, requestedFuel: BigInt) = {

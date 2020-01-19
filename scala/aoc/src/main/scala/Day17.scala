@@ -1,5 +1,7 @@
 object Day17 {
     import IntCodeComputer._
+    // Part2: Find one simple path. Compress using text editor xD
+
 
     def part1(s: String = puzzleInput) = {
         val computer = new IntCodeComputer("", s)

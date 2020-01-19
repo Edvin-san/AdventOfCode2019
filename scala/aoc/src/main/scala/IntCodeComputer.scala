@@ -85,6 +85,7 @@ object IntCodeComputer {
 		override def reset() = {
 			super.reset()
 			i = 0
+			computationStatus = ReadyToRun
 			prog.reset()
 		}
 

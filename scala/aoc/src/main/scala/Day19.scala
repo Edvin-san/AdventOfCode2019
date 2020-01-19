@@ -2,6 +2,8 @@ object Day19 {
     import IntCodeComputer._
     import Util._
 
+    // Keep track of edges of beam. Local computation.
+
     def part1(s: String = puzzleInput) = {
         val computer = new IntCodeComputer("", s)
         var n = 0
