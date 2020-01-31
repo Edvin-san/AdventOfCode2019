@@ -4,15 +4,16 @@ object Day22Mathy {
 
     // Linear Congruential Generator.
     // f(x) = a*x + b mod m
+    // f^-1(y) = (y - b)/a 
     case class LCG(m: BigInt, a: BigInt, b: BigInt) {
         def apply(x: BigInt): BigInt = posMod(a*x + b, m)
-        def unapply(y: BigInt): BigInt = posMod(modularInverse(a, m)*y - b, m)
+        def unapply(y: BigInt): BigInt = posMod(modularInverse(a, m)*(y - b), m)
     }
 
-    // a1*(a2*x + b2) + b1 = (a1*a2)*x + a1*b2 + (b2 + b1).
+    // a1*(a2*x + b2) + b1 = a1*a2*x + a1*b2 + b1.
     def compose(g1: LCG, g2: LCG): LCG = (g1, g2) match {
         case (LCG(m, a1, b1), LCG(m2, a2, b2)) if m == m2 =>
-            LCG(m, posMod(a1*a2, m), posMod(a1*b2 + b1 + b2, m))
+            LCG(m, posMod(a1*a2, m), posMod(a1*b2 + b1, m))
         case _ => ???
     }
 
@@ -31,10 +32,10 @@ object Day22Mathy {
             a.modPow(r, m), 
             posMod(b*(a.modPow(r, m) - 1) * modularInverse(a - 1, m), m))
     }
-
+    
     def opToLCG(m: BigInt)(op: ShuffleOperation): LCG = op match {
-        case DealNewStack => LCG(m, m - 1, m - 1)
-        case Cut(n) => LCG(m, 1, -n)
+        case DealNewStack => LCG(m, posMod(-1, m), posMod(-1, m))
+        case Cut(n) => LCG(m, 1, posMod(-n, m))
         case DealWithIncrement(inc) => LCG(m, inc, 0)
     }
 
@@ -54,6 +55,26 @@ object Day22Mathy {
         val op = ops.map(toLCG).reverse.reduce(compose _)
         val repOp = repeat(op, repetitions)
         repOp.unapply(2020)
+    }
+
+    // Alternative, use exponentiation.
+    def exp(g: LCG, r: BigInt): LCG = 
+        if (r == 1) g
+        else {
+            val gHalf = exp(g, r / 2)
+            val gEven = compose(gHalf, gHalf)
+            if (r % 2 == 0) gEven
+            else compose(gEven, g)
+        }
+
+    def part2Exp(s: String = Day22.puzzleInput) = {
+        val cards = BigInt("119315717514047")
+        val repetitions = BigInt("101741582076661")
+        val ops = s.linesIterator.map(parseOperation).toList
+        val toLCG = opToLCG(cards) _
+        val op = ops.map(toLCG).reverse.reduce(compose _)
+        val expOp = exp(op, repetitions)
+        expOp.unapply(2020)
     }
     
 }
